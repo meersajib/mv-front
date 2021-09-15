@@ -1,5 +1,5 @@
 {
-  "name": "unice",
+  "name": "manuviour",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,7 +16,7 @@
     "fslightbox-react": "^1.4.9",
     "graphql": "^14.5.8",
     "graphql-react": "^11.0.2",
-    "next": "9.1.4",
+    "next": "^11.1.2",
     "next-images": "^1.2.0",
     "next-redux-wrapper": "^4.0.1",
     "nprogress": "^0.2.0",
@@ -47,7 +47,10 @@
   },
   "devDependencies": {
     "file-loader": "^6.0.0",
+    "less": "^4.1.1",
+    "less-loader": "5",
     "node-sass": "^4.14.1",
-    "url-loader": "^4.1.0"
+    "url-loader": "^4.1.0",
+    "webpack": "^4.46.0"
   }
 }

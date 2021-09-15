@@ -14,7 +14,7 @@ const Header = props => {
     }
 
     return (
-        <header className={`${props.className || 'app2'} loding-header nav-abs custom-scroll  `}>
+        <header style={{ backgroundColor: '#071828' }} className={`${props.className || 'app2'} loding-header nav-abs custom-scroll  `}>
             <Container>
                 <Row>
                     <Col>
@@ -30,8 +30,8 @@ const Header = props => {
                                             <img alt="" className="img-fluid" src="/assets/images/logo/5.png" />
                                             :
                                             props.className == 'dark bg-white ecommerce' ?
-                                            <img alt="" className="img-fluid" src="/assets/images/logo/5.png" />
-                                            :
+                                                <img alt="" className="img-fluid" src="/assets/images/logo/5.png" />
+                                                :
                                                 props.className == 'dark agency' ?
                                                     <img alt="" className="img-fluid" src="/assets/images/logo/5.png" />
                                                     :

@@ -1,0 +1,9 @@
+.top__container{
+    display: grid;
+    background: #fff;
+    grid-template-columns: .5fr .4fr .3fr;
+    border-radius: 7px;
+    box-shadow: 0 0 10px 0px #e8dcdc;
+    padding: 20px;
+    margin: 20px 0;
+}

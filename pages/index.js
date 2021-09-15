@@ -15,7 +15,7 @@ import RatSection from '../landing/rat'
 import FooterSection from '../landing/footer'
 
 const Home = () => {
-  
+
   useEffect(() => {
     document.body.style.setProperty('--primary', '#10266b')
     document.body.style.setProperty('--secondary', '#464545')
@@ -26,31 +26,31 @@ const Home = () => {
   return (
     <Fragment>
       <div className="landing-page">
-      <Head>
-        <title>Unice</title>
-      </Head>
+        <Head>
+          <title>Manuviour</title>
+        </Head>
 
-      <Header />
+        <Header />
 
-      <GiftSection />
+        <GiftSection />
 
-      <DemoSection />
+        <DemoSection />
 
-      <PortfolioSection />
+        <PortfolioSection />
 
-      <WhatinsideSection />
+        <WhatinsideSection />
 
-      <BlogSection />
+        <BlogSection />
 
-      <ElementSection />
+        <ElementSection />
 
-      <FeaturesSection />
+        <FeaturesSection />
 
-      <TestimonialSection />
+        <TestimonialSection />
 
-      <RatSection />
+        <RatSection />
 
-      <FooterSection />
+        <FooterSection />
       </div>
     </Fragment>
   )

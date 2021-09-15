@@ -1,0 +1,20 @@
+.menu {
+  /* grid-area: menu; */
+  /* min-width: 100px; */
+}
+.main {
+  /* grid-area: main; */
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: .2fr .8fr;
+  grid-gap: 10px;
+  padding-top: 10px;
+}
+
+.gridContainer > div {
+  box-shadow: var(--dk-box-shadow);
+  text-align: center;
+  padding: 10px;
+}
