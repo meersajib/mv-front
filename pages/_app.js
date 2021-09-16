@@ -14,88 +14,94 @@ import "../public/assets/scss/slick.scss";
 import "../public/assets/scss/slick-theme.scss";
 import Customizer from '../containers/customizer';
 
+import { parseCookies } from 'nookies';
 
 const { publicRuntimeConfig = {} } = getConfig() || {};
 
 NProgress.configure({ showSpinner: publicRuntimeConfig.NProgressShowSpinner });
 
 Router.onRouteChangeStart = () => {
-  NProgress.start();
+	NProgress.start();
 };
 
 Router.onRouteChangeComplete = () => {
-  NProgress.done();
+	NProgress.done();
 };
 
 Router.onRouteChangeError = () => {
-  NProgress.done();
+	NProgress.done();
 };
 
 function MyFunctionComponent({ children }) {
-  const [loader, setLoader] = useState(true)
-  const [goingUp, setGoingUp] = useState(false)
+	const [loader, setLoader] = useState(true)
+	const [goingUp, setGoingUp] = useState(false)
 
-  useEffect(() => {
-    // Page Loader
-    setTimeout(() => {
-      setLoader(false)
-    }, 1500)
+	useEffect(() => {
+		// Page Loader
+		setTimeout(() => {
+			setLoader(false)
+		}, 1500)
 
-    // Tap to Top Scroll 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > 500)
-        setGoingUp(true);
-      else
-        setGoingUp(false);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+		// Tap to Top Scroll 
+		const handleScroll = () => {
+			const currentScrollY = window.scrollY;
+			if (currentScrollY > 500)
+				setGoingUp(true);
+			else
+				setGoingUp(false);
+		};
+		window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [goingUp]);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, [goingUp]);
 
-  const tapToTop = () => {
-    window.scrollTo({
-      behavior: "smooth",
-      top: 0
-    });
-  }
+	const tapToTop = () => {
+		window.scrollTo({
+			behavior: "smooth",
+			top: 0
+		});
+	}
 
-  return (
-    <>
-      <Head>
-        <title>Unice</title>
-      </Head>
-      {loader &&
-        <div className="loader-wrapper">
-          <div className="loader">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>}
-      <>{children}</>
-      <div className="tap-top" style={goingUp ? { display: 'block' } : { display: 'none' }} onClick={tapToTop}>
-        <div><i className="fa fa-angle-double-up"></i></div>
-      </div>
-    </>
-  )
+	return (
+		<>
+			<Head>
+				<title>Unice</title>
+			</Head>
+			{loader &&
+				<div className="loader-wrapper">
+					<div className="loader">
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>}
+			<>{children}</>
+			<div className="tap-top" style={goingUp ? { display: 'block' } : { display: 'none' }} onClick={tapToTop}>
+				<div><i className="fa fa-angle-double-up"></i></div>
+			</div>
+		</>
+	)
 }
 
 export default function MyApp({ Component, pageProps, graphql }) {
-  return (
-    <div>
-      <MyFunctionComponent>
-        <Component {...pageProps} />
-        <Customizer />
-      </MyFunctionComponent>
-      <ToastContainer />
-    </div>
-  )
+	const cookies = parseCookies(null);
+	console.log('cookies in appjs', cookies);
+
+	cookies?.token && (axios.defaults.headers.common['Authorization'] = `Bearer ${cookies?.token}`);
+
+	return (
+		<div>
+			<MyFunctionComponent>
+				<Component {...pageProps} />
+				<Customizer />
+			</MyFunctionComponent>
+			<ToastContainer />
+		</div>
+	)
 }
