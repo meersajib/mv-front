@@ -1,77 +1,129 @@
 import Head from 'next/head'
-import { Fragment } from 'react';
-import styles from '../styles/Signup.module.css'
 import { useForm } from "react-hook-form";
- 
+import { sendOtp, signup } from '../services/auth.service';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+
 const Signup = () => {
-    return (
-        <Fragment>
-            <Head>
-                <title>Sign Up</title>
-            </Head>
-            <div className='container'>
-                <div className={`form-body row`}>
-                    <div className='col-10 col-md-8 col-offset-md-4 col-lg-5 col-offset-2 col-offset-lg-7 mx-auto card p-5 box'>
-                        <div className="title">
-                            <div className="main-title">
-                                <h2>
-                                    <span className="theme-color">S</span>ign <span className="theme-color">U</span>p</h2>
-                            </div>
-                            <hr />
+	const router = useRouter();
 
-                        </div>
-                        <form>
-                            <div className="mb-3">
-                                <label htmlFor="fullName" className="form-label">Full Name</label>
-                                <input type="text" className="form-control" id="fullName" />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="phoneNo" className="form-label">Phone No</label>
-                                <input type="text" className="form-control" id="phoneNo" />
-                            </div>
+	const schema = Joi.object({
+		name: Joi.string().min(3).max(50).trim().required()
+			.messages({
+				'string.empty': `name cannot be empty`,
+				'string.min': `name should have a minimum length of 3`,
+				'any.required': `name is a required field`
+			}),
+		emailOrPhone: Joi.string().required().messages({
+			'string.empty': 'email/phone cannot be empty'
+		}),
+		otp: Joi.string().required().messages({
+			'string.empty': 'OTP is cannot be empty',
+			// 'number.required': `otp is a required field`,
+		}),
+		password: Joi.string().min(4).max(50).required().messages({
+			'string.empty': 'password cannot be empty',
+			'string.min': 'password must be at 4 charecters long'
+		}),
+		confirmPassword: Joi.any().valid(Joi.ref('password')).required(),//.messages({'any.error':'Passwords do not match'}),//.options({ messages: {'any.error':'Passwords do not match'} }),
+		address: Joi.string().required().messages({ 'string.empty': 'address cannot be empty' }),
+	});
 
-                            <div className="mb-3">
-                                <label htmlFor="phoneNo" className="form-label">Email / Phone</label>
-                                <div className='input-group'>
-                                    <input type="text" className="form-control" placeholder="Phone / Email" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                                    <button className="input-group-text" id="basic-addon2">Get OTP</button>
-                                </div>
-                            </div>
+	
 
+	const { register, handleSubmit, watch, formState: { errors } } = useForm({
+		resolver: joiResolver(schema)
+	});
 
-                            <div className="mb-3">
-                                <label htmlFor="otp" className="form-label">OTP</label>
-                                <input type="number" className="form-control" id="otp" />
-                            </div>
+	const onSubmit = async data => {
+		const toast_id = toast.loading("Please wait...",{autoClose:5000})
+		try {
+			await signup(data);
+			toast.update(toast_id, { render: "sign up successfully", type: "success", isLoading: false,autoClose:3000 });
+			router.push('/login')
+		} catch (error) {
+			toast.update(toast_id, { render: error?.message ||  "Something went wrong!", type: "error", isLoading: false,autoClose:3000 });
+		}
+	}
 
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input type="password" className="form-control" id="password" />
-                            </div>
+	const emailOrPhone = watch("emailOrPhone");
 
-                            <div className="mb-3">
-                                <label htmlFor="cPassword" className="form-label">Confirm Password</label>
-                                <input type="cPassword" className="form-control" id="cPassword" />
-                            </div>
+	const otpSubmit = async (e) => {
+		if(emailOrPhone){
+			e.preventDefault()
+			const toast_id = toast.loading("Please wait...")
+			try {
+				await sendOtp(emailOrPhone);
+				toast.update(toast_id, { render: "OTP has been sent!", type: "success", isLoading: false,autoClose:3000 });
+			} catch (error) {
+				toast.update(toast_id, { render: error?.message ||  "Something went wrong!", type: "error", isLoading: false,autoClose:3000 });
+			}
+		}
+	}
 
-                            <div className="mb-3">
-                                <label htmlFor="address" className="form-label">Address</label>
-                                <textarea className="form-control" id="address" rows="3"></textarea>
-                            </div>
+	return (
+		<>
+			<Head>
+				<title>Sign Up</title>
+			</Head>
+			<div className='container'>
+				<div className={`form-body row`}>
+					<div className='col-10 col-md-8 col-offset-md-4 col-lg-5 col-offset-2 col-offset-lg-7 mx-auto card p-5 box'>
+						<div className="title">
+							<div className="main-title">
+								<h2>
+									<span className="theme-color">S</span>ign <span className="theme-color">U</span>p</h2>
+							</div>
+							<hr />
+						</div>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<div className="mb-3">
+								<label htmlFor="name" className="form-label">Full Name<span className="text-danger">*</span> </label>
+								<input className="form-control" placeholder="Enter your name"  {...register("name")} />
+								<p className="text-danger pt-2">{errors.name?.message}</p>
+							</div>
 
+							<div className="mb-3">
+								<label htmlFor="emailOrPhone" className="form-label">Email / Phone<span className="text-danger">*</span></label>
+								<div className='input-group'>
+									<input className="form-control" id="emailOrPhone" placeholder="Phone / Email" {...register("emailOrPhone")} />
+									<button type="button" onClick={(e) => otpSubmit(e)} className="btn input-group-text">Get OTP</button>
+								</div>
+								<p className="text-danger pt-2">{errors.emailOrPhone?.message}</p>
+							</div>
 
-                            {/* <div className="mb-3 form-check">
-                                <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                            </div> */}
+							<div className="mb-3">
+								<label htmlFor="otp" className="form-label" >OTP<span className="text-danger">*</span></label>
+								<input type="number" placeholder="Enter OTP" className="form-control" id="otp" {...register("otp")} />
+								<p className="text-danger pt-2">{errors.otp?.message}</p>
+							</div>
 
-                            <button type="submit" className="btn btn-block text-white">Sign Up</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </Fragment>
-    );
+							<div className="mb-3">
+								<label htmlFor="password" className="form-label">Password<span className="text-danger">*</span></label>
+								<input type="password" className="form-control" id="password" {...register("password")} />
+								<p className="text-danger pt-2">{errors.password?.message}</p>
+							</div>
+
+							<div className="mb-3">
+								<label htmlFor="confirmPassword" className="form-label">Confirm Password<span className="text-danger">*</span></label>
+								<input type="password" className="form-control" id="confirmPassword" {...register("confirmPassword")} />
+								{errors?.confirmPassword && <p className="text-danger pt-2">Passwords do not match</p>}
+							</div>
+
+							<div className="mb-3">
+								<label htmlFor="address" className="form-label">Address<span className="text-danger">*</span></label>
+								<textarea className="form-control" placeholder="Enter address" id="address" rows="3" {...register("address")}></textarea>
+								<p className="text-danger pt-2">{errors.address?.message}</p>
+							</div>
+							<button type="submit" className="btn btn-block text-white">Sign Up</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</>
+	);
 };
 
 export default Signup;

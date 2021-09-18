@@ -13,6 +13,7 @@ import '../public/assets/scss/themify.scss';
 import "../public/assets/scss/slick.scss";
 import "../public/assets/scss/slick-theme.scss";
 import Customizer from '../containers/customizer';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { parseCookies } from 'nookies';
 
