@@ -5,6 +5,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import styles from '../styles/Signup.module.css'
 
 const Signup = () => {
 	const router = useRouter();
@@ -31,34 +32,34 @@ const Signup = () => {
 		address: Joi.string().required().messages({ 'string.empty': 'address cannot be empty' }),
 	});
 
-	
+
 
 	const { register, handleSubmit, watch, formState: { errors } } = useForm({
 		resolver: joiResolver(schema)
 	});
 
 	const onSubmit = async data => {
-		const toast_id = toast.loading("Please wait...",{autoClose:5000})
+		const toast_id = toast.loading("Please wait...", { autoClose: 5000 })
 		try {
 			await signup(data);
-			toast.update(toast_id, { render: "sign up successfully", type: "success", isLoading: false,autoClose:3000 });
+			toast.update(toast_id, { render: "sign up successfully", type: "success", isLoading: false, autoClose: 3000 });
 			router.push('/login')
 		} catch (error) {
-			toast.update(toast_id, { render: error?.message ||  "Something went wrong!", type: "error", isLoading: false,autoClose:3000 });
+			toast.update(toast_id, { render: error?.message || "Something went wrong!", type: "error", isLoading: false, autoClose: 3000 });
 		}
 	}
 
 	const emailOrPhone = watch("emailOrPhone");
 
 	const otpSubmit = async (e) => {
-		if(emailOrPhone){
+		if (emailOrPhone) {
 			e.preventDefault()
 			const toast_id = toast.loading("Please wait...")
 			try {
 				await sendOtp(emailOrPhone);
-				toast.update(toast_id, { render: "OTP has been sent!", type: "success", isLoading: false,autoClose:3000 });
+				toast.update(toast_id, { render: "OTP has been sent!", type: "success", isLoading: false, autoClose: 3000 });
 			} catch (error) {
-				toast.update(toast_id, { render: error?.message ||  "Something went wrong!", type: "error", isLoading: false,autoClose:3000 });
+				toast.update(toast_id, { render: error?.message || "Something went wrong!", type: "error", isLoading: false, autoClose: 3000 });
 			}
 		}
 	}
