@@ -14,13 +14,6 @@
     "static/development/_ssgManifest.js"
   ],
   "pages": {
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/css/styles.chunk.css",
-      "static/chunks/styles.js",
-      "static/chunks/pages/index.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -33,27 +26,19 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/elements/contact": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/elements/contact.js"
-    ],
-    "/page/team": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/page/team.js"
-    ],
-    "/portfolio/portfolio-detail-1": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/portfolio/portfolio-detail-1.js"
-    ],
-    "/user/profile": [
+    "/signup": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/css/styles.chunk.css",
       "static/chunks/styles.js",
-      "static/chunks/pages/user/profile.js"
+      "static/chunks/pages/signup.js"
+    ],
+    "/user/change-password": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/css/styles.chunk.css",
+      "static/chunks/styles.js",
+      "static/chunks/pages/user/change-password.js"
     ]
   },
   "ampFirstPages": []
