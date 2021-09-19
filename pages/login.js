@@ -6,6 +6,8 @@ import Joi from 'joi';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import styles from '../styles/Signup.module.css'
+
 
 const Login = () => {
 	const router = useRouter();
@@ -27,8 +29,8 @@ const Login = () => {
 		toast.dismiss()
 		const toast_id = toast.loading("Please wait...", { autoClose: 2000 })
 		try {
-			const response= await signin(data);
-			console.log('respoin',response);
+			const response = await signin(data);
+			console.log('respoin', response);
 			toast.update(toast_id, { render: "sign in successfully", type: "success", isLoading: false, autoClose: 2000 });
 			router.push('/')
 		} catch (error) {
@@ -61,11 +63,13 @@ const Login = () => {
 							</div>
 							<div className="mb-3">
 								<label htmlFor="password" className="form-label">Password<span className="text-danger">*</span></label>
-								<input type="password" className="form-control" id="password"  {...register("password")}/>
+								<input type="password" className="form-control" id="password"  {...register("password")} />
 								<p className="text-danger pt-2">{errors.password?.message}</p>
 							</div>
 							<button type="submit" className="btn btn-block text-white">Login</button>
 						</form>
+
+						<p className="text-center pt-4">Don't have an account? &nbsp;<Link href="/signup"><a style={{color:'#fb3b64'}}>Sign up</a></Link></p>
 					</div>
 				</div>
 			</div>

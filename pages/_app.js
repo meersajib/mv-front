@@ -16,6 +16,7 @@ import Customizer from '../containers/customizer';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { parseCookies } from 'nookies';
+import axios from 'axios';
 
 const { publicRuntimeConfig = {} } = getConfig() || {};
 
