@@ -7,8 +7,8 @@ export default function Sidebar() {
         <div>
             <img src="/assets/images/user-dashboard/user.png" height="100px" width="100px" alt='User Profile' />
             <h3>User name</h3>
-            <h6>Mobile Number</h6>
-            <button className={styles.accButton}>Check Account</button>
+            {/* <h6>Mobile Number</h6> */}
+            {/* <button className={styles.accButton}>Check Account</button> */}
             <hr />
             <div className={styles.menu__list}>
                 <ul>
