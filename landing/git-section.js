@@ -43,7 +43,7 @@ const GitSection = () => (
                 <img src="assets/images/landing/animate-icon/sib-2.png" className="img-fluid hom-sib2" alt="" />
             </div>
             <div className="inner-slide3">
-                <img src="assets/images/landing/home/12.png" className="main-gif img-fluid" alt="" />
+                <img src="assets/images/landing/home/5.png" className="main-gif img-fluid" alt="" />
             </div>
         </section>
        

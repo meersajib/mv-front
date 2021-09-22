@@ -46,7 +46,7 @@ export default function Profile() {
 
 export async function getServerSideProps(ctx) {
 
-
+	
     return {
         props: {
 

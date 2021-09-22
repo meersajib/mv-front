@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import NProgress from 'nprogress';
@@ -14,9 +14,12 @@ import "../public/assets/scss/slick.scss";
 import "../public/assets/scss/slick-theme.scss";
 import Customizer from '../containers/customizer';
 import 'react-toastify/dist/ReactToastify.css';
+import GlobalContextProvider from '../contexts/globalContext';
 
 import { parseCookies } from 'nookies';
 import axios from 'axios';
+import { GlobalUpdateContext } from '../contexts/globalContext';
+import request from '../utils/request';
 
 const { publicRuntimeConfig = {} } = getConfig() || {};
 
@@ -37,6 +40,20 @@ Router.onRouteChangeError = () => {
 function MyFunctionComponent({ children }) {
 	const [loader, setLoader] = useState(true)
 	const [goingUp, setGoingUp] = useState(false)
+
+	// const { userName, isLoggedIn } = useContext(GlobalContext)
+	const {setUserName, setIsLoggedIn} = useContext(GlobalUpdateContext)
+
+	useEffect(() => {
+		async function fetchProfile() {
+      let user = await request('/user/profile');
+			if(user){
+				setUserName(user?.name)
+				setIsLoggedIn(true)
+			}
+    }
+    fetchProfile()
+	}, [])
 
 	useEffect(() => {
 		// Page Loader
@@ -93,17 +110,17 @@ function MyFunctionComponent({ children }) {
 
 export default function MyApp({ Component, pageProps, graphql }) {
 	const cookies = parseCookies(null);
-	console.log('cookies in appjs', cookies);
-
-	cookies?.token && (axios.defaults.headers.common['Authorization'] = `Bearer ${cookies?.token}`);
+	cookies?.PILOT_AUTH && (axios.defaults.headers.common['Authorization'] = `Bearer ${cookies?.PILOT_AUTH}`);
 
 	return (
 		<div>
-			<MyFunctionComponent>
-				<Component {...pageProps} />
-				<Customizer />
-			</MyFunctionComponent>
-			<ToastContainer />
+			<GlobalContextProvider>
+				<MyFunctionComponent>
+					<Component {...pageProps} />
+					<Customizer />
+				</MyFunctionComponent>
+				<ToastContainer />
+			</GlobalContextProvider>
 		</div>
 	)
 }

@@ -120,12 +120,14 @@ const Signup = () => {
 								<textarea className="form-control" placeholder="Enter address" id="address" rows="3" {...register("address")}></textarea>
 								<p className="text-danger pt-2">{errors.address?.message}</p>
 							</div>
-							<button type="submit" className="btn btn-block text-white">Sign Up</button>
+							<div className="d-grid gap-2">
+								<button type="submit" className="btn text-white">Sign Up</button>
+							</div>
 						</form>
 
-						
-							<p className="text-center pt-4">Already have an account? &nbsp;<Link href="/login"><a style={{color:'#fb3b64'}}>Login</a></Link></p>
-						
+
+						<p className="text-center pt-4">Already have an account? &nbsp;<Link href="/login"><a style={{ color: '#fb3b64' }}>Login</a></Link></p>
+
 					</div>
 
 				</div>

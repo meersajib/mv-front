@@ -1,11 +1,32 @@
 import React, { Fragment, useState } from 'react';
 import { Container, Row, Col } from 'reactstrap'
 import Link from 'next/link';
+import { useContext } from 'react';
+import { GlobalContext,GlobalUpdateContext } from '../contexts/globalContext';
+import request from '../utils/request';
+import { toast } from 'react-toastify';
+
 const Header = () => {
 
 	const [navbar, setNavbar] = useState(false);
+	const { userName, isLoggedIn } = useContext(GlobalContext)
+	const {setUserName, setIsLoggedIn} = useContext(GlobalUpdateContext)
 	const toggleNav = () => {
 		setNavbar(!navbar)
+	}
+
+	const logout= async (e)=>{
+		e.preventDefault();
+		try {
+			const response = await request('/user/logout',{method:'POST'});
+			if(response){
+				setIsLoggedIn(false)
+				setUserName('')
+				toast.success('Logged out!', {autoClose:1000,pauseOnHover: false,});
+			}
+		} catch (error) {
+			toast.error('Something went wrong',{autoClose:1000})
+		}
 	}
 	return (
 
@@ -42,29 +63,38 @@ const Header = () => {
 												<li className="nav-item">
 													<a className="nav-link" href="https://pixelstrap.freshdesk.com">support</a>
 												</li>
-												<li className="nav-item">
-													<Link href='login'>
-														<a className="nav-link">login</a>
-													</Link>
+												{!isLoggedIn ?
+													<>
+														<li className="nav-item">
+															<Link href='/login'>
+																<a className="nav-link">login</a>
+															</Link>
+														</li>
+														<li className="nav-item">
+															<Link href='/signup'>
+																<a className="nav-link">signup</a>
+															</Link>
+														</li>
+													</>
+													:
+													<li className="nav-item">
+														<a className="nav-link" onClick={(e)=>logout(e)}>logout</a>
 												</li>
-												<li className="nav-item">
-													<Link href='signup'>
-														<a className="nav-link">signup</a>
-													</Link>
-												</li>
+												}
 											</ul>
 										</div>
 									</nav>
 								</div>
+
 								<div className="purchase-block">
-									<span className="cartpurchase"><i className="fa fa-cart-arrow-down"></i></span>
-									<a className="purchase-btn" href="https://themeforest.net/user/pixelstrap/portfolio">purchase</a>
+									<span className="purchase-btn">{userName}</span>
 								</div>
 							</div>
 						</Col>
 					</Row>
 				</Container>
 			</header>
+
 		</Fragment>
 	)
 }

@@ -6,7 +6,6 @@ const request = async (url, params, headers = {}) => {
 	headers && (headers = { ...headers, ...header });
 
 	const developement = process.env.NODE_ENV !== 'production'
-	console.log('dev mode', developement);
 	const baseURL = developement ? 'http://localhost:4400' : 'https://api.mvpilot.com';
 
 	const config = {
@@ -14,7 +13,8 @@ const request = async (url, params, headers = {}) => {
 		url,
 		baseURL,
 		data: (params && params.data) || {},
-		params: (params && params.params) || {}
+		params: (params && params.params) || {},
+		withCredentials:true
 	};
 
 	try {

@@ -7,10 +7,12 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../styles/Signup.module.css'
-
+import { GlobalUpdateContext } from '../contexts/globalContext';
+import { useContext } from 'react';
 
 const Login = () => {
 	const router = useRouter();
+	const { setIsLoggedIn, setUserName } = useContext(GlobalUpdateContext)
 
 	const schema = Joi.object({
 		emailOrPhone: Joi.string().required().messages({
@@ -27,14 +29,16 @@ const Login = () => {
 
 	const onSubmit = async data => {
 		toast.dismiss()
-		const toast_id = toast.loading("Please wait...", { autoClose: 2000 })
 		try {
 			const response = await signin(data);
-			console.log('respoin', response);
-			toast.update(toast_id, { render: "sign in successfully", type: "success", isLoading: false, autoClose: 2000 });
+			if (response?.user) {
+				setIsLoggedIn(true)
+				setUserName(response?.user?.name)
+			}
+			toast.success('Logged in',{autoClose: 1000});
 			router.push('/')
 		} catch (error) {
-			toast.update(toast_id, { render: error?.message || "Something went wrong!", type: "error", isLoading: false, autoClose: 2000 });
+			toast.error(error?.message || "Something went wrong!",{autoClose:1000});
 		}
 	}
 
@@ -66,10 +70,13 @@ const Login = () => {
 								<input type="password" className="form-control" id="password"  {...register("password")} />
 								<p className="text-danger pt-2">{errors.password?.message}</p>
 							</div>
-							<button type="submit" className="btn btn-block text-white">Login</button>
+							<div className="d-grid gap-2">
+								<button type="submit" className="btn text-white">Login</button>
+							</div>
+						
 						</form>
 
-						<p className="text-center pt-4">Don't have an account? &nbsp;<Link href="/signup"><a style={{color:'#fb3b64'}}>Sign up</a></Link></p>
+						<p className="text-center pt-4">Don't have an account? &nbsp;<Link href="/signup"><a style={{ color: '#fb3b64' }}>Sign up</a></Link></p>
 					</div>
 				</div>
 			</div>
