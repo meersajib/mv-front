@@ -9,10 +9,11 @@ import Link from 'next/link';
 import styles from '../styles/Signup.module.css'
 import { GlobalUpdateContext } from '../contexts/globalContext';
 import { useContext } from 'react';
+import ModernSassLayout from '../components/Layouts/modern-sass';
 
 const Login = () => {
 	const router = useRouter();
-	const { setIsLoggedIn, setUserName } = useContext(GlobalUpdateContext)
+	const { setIsLoggedIn, setUserInfo } = useContext(GlobalUpdateContext)
 
 	const schema = Joi.object({
 		emailOrPhone: Joi.string().required().messages({
@@ -31,9 +32,10 @@ const Login = () => {
 		toast.dismiss()
 		try {
 			const response = await signin(data);
+			console.log('response in login ',response);
 			if (response?.user) {
 				setIsLoggedIn(true)
-				setUserName(response?.user?.name)
+				setUserInfo(response?.user)
 			}
 			toast.success('Logged in',{autoClose: 1000});
 			router.push('/')
@@ -43,14 +45,11 @@ const Login = () => {
 	}
 
 	return (
-		<>
-			<Head>
-				<title>Login</title>
-			</Head>
+		<ModernSassLayout title="login">
 
 			<div className='container'>
 				<div className={`form-body row`}>
-					<div className='col-10 col-md-8 col-offset-md-4 col-lg-5 col-offset-2 col-offset-lg-7 mx-auto card p-5 box'>
+					<div className='col-10 col-md-8 col-offset-md-4 col-lg-4 col-offset-2 col-offset-lg-7 mx-auto card p-5 box'>
 						<div className="text-center">
 							<div className="main-title">
 								<h2>
@@ -80,7 +79,7 @@ const Login = () => {
 					</div>
 				</div>
 			</div>
-		</>
+		</ModernSassLayout>
 	);
 };
 

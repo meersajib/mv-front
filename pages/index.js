@@ -1,59 +1,48 @@
-import React, { Fragment, useEffect } from 'react'
-import '../public/assets/scss/landing.scss'
-import Head from 'next/head'
+import React, { useEffect } from 'react'
+
 // import Custom Components
-import Header from '../landing/header'
-import GiftSection from '../landing/git-section'
-import DemoSection from '../landing/demo'
-import PortfolioSection from '../landing/portfolio'
-import WhatinsideSection from '../landing/whatinside'
-import BlogSection from '../landing/blog'
-import ElementSection from '../landing/elements'
-import FeaturesSection from '../landing/features'
-import TestimonialSection from '../landing/testimonial'
-import RatSection from '../landing/rat'
-import FooterSection from '../landing/footer'
+import BannerSection from './layouts/sections/modern-sass/banner'
+import FeatureSection from './layouts/sections/modern-sass/feature'
+import BuildSection from './layouts/sections/modern-sass/build'
+import WorkSection from './layouts/sections/modern-sass/work'
+import PriceSection from './layouts/sections/modern-sass/price'
+
+import TestimonialSection from './layouts/sections/modern-sass/testimonial'
+import SubscribeSection from './layouts/sections/modern-sass/subscribe'
+import FaqSection from './layouts/sections/modern-sass/faq'
+import ClientSection from './layouts/sections/modern-sass/client'
+import ModernSassLayout from '../components/Layouts/modern-sass'
 
 const Home = () => {
 
-  useEffect(() => {
-    document.body.style.setProperty('--primary', '#10266b')
-    document.body.style.setProperty('--secondary', '#464545')
-    document.body.style.setProperty('--light', '#1F357D')
-    document.body.style.setProperty('--dark', '#04185B')
-  })
+	useEffect(() => {
+		document.body.style.setProperty('--primary', '#fb3b64')
+		document.body.style.setProperty('--secondary', '#071828')
+		document.body.style.setProperty('--light', '#071828')
+		document.body.style.setProperty('--dark', '#fb3b64')
+	})
 
-  return (
-    <Fragment>
-      <div className="landing-page">
-        <Head>
-          <title>Manuviour</title>
-        </Head>
+	return (
+		<ModernSassLayout >
+			<BannerSection />
 
-        <Header />
+			<FeatureSection />
 
-        <GiftSection />
+			<BuildSection />
 
-        <DemoSection />
+			<WorkSection />
 
-        <PortfolioSection />
+			<PriceSection />
 
-        <WhatinsideSection />
+			<TestimonialSection />
 
-        <BlogSection />
+			<SubscribeSection />
 
-        <ElementSection />
+			<FaqSection />
 
-        <FeaturesSection />
-
-        <TestimonialSection />
-
-        <RatSection />
-
-        <FooterSection />
-      </div>
-    </Fragment>
-  )
+			<ClientSection />
+		</ModernSassLayout>
+	)
 }
 
-export default Home
+export default Home;

@@ -7,49 +7,31 @@ import BasicInfo from '../../../components/UserDashboard/MenuDetails/BasicInfo';
 import Sidebar from '../../../components/UserDashboard/Sidebar/Sidebar';
 import { Container, Row, Col } from 'reactstrap'
 import styles from '../../../styles/Profile.module.css';
-
+import request from '../../../utils/request';
+import { getProfile } from '../../../services/auth.service';
+import CustomerLayout from '../../../components/UserDashboard/CustomerLayout';
 
 
 export default function Profile() {
-
-    useEffect(() => {
-        document.body.style.setProperty('--primary', '#fb3b64')
-        document.body.style.setProperty('--secondary', '#071828')
-        document.body.style.setProperty('--light', '#071828')
-        document.body.style.setProperty('--dark', '#fb3b64')
-    })
-
-
-
-    return (
-        <div>
-            <Head>
-                <title>User Profile</title>
-            </Head>
-            <Header className="saas1" />
-
-            <Container style={{ paddingTop: '170px', paddingBottom: '100px' }}>
-                <Row>
-                    <Col xs={12} md={2}>
-                        <Sidebar />
-                    </Col>
-                    <Col xs={12} md={10}>
-                        <BasicInfo />
-                    </Col>
-                </Row>
-            </Container>
-            <FooterSection />
-        </div>
-    )
+	return (
+		<CustomerLayout title="User Profile">
+			<BasicInfo />
+		</CustomerLayout>
+	)
 }
 
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps(context) {
+	let user = {}
+	try {
+		user = await getProfile(context);
+	} catch (error) {
+		console.log('user not found');
+	}
 
-	
-    return {
-        props: {
-
-        }
-    }
+	return {
+		props: {
+			user: user || {}
+		}
+	}
 }

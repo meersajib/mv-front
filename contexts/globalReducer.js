@@ -1,10 +1,10 @@
 
 export const GlobalReducer = (state, action) => {
 	switch (action.type) {
-		case 'SET_USER_NAME':
+		case 'SET_USER_INFO':
 			return {
 				...state,
-				userName: action?.payload
+				userInfo: action?.payload
 			}
 		case 'SET_ISLOGGED_IN':
 			return {

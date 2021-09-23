@@ -1,47 +1,43 @@
-// import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Sidebar.module.css';
-
+import { GlobalContext } from '../../../contexts/globalContext'
+import { useContext } from 'react';
+import {useRouter} from 'next/router';
 export default function Sidebar() {
-    return (
-        <div>
-            <img src="/assets/images/user-dashboard/user.png" height="100px" width="100px" alt='User Profile' />
-            <h3>User name</h3>
-            {/* <h6>Mobile Number</h6> */}
-            {/* <button className={styles.accButton}>Check Account</button> */}
-            <hr />
-            <div className={styles.menu__list}>
-                <ul>
-                    <li>
-                        {/* <Image src='/assets/images/icons/list.svg' height={16} width={16} alt='List' />  */}
-                        <Link href="/user/profile"><a>Basic Information</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/address"><a>Addresses</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/orders"><a>Orders</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/unconfirmed"><a>Unconfirmed Orders</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/reviews"><a>Reviews</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/refund"><a>Refund Settlements</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/changepassword"><a>Change Password</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/appointment"><a>Appointment</a></Link>
-                    </li>
-                    <li>
-                        <Link href="/user/transactions"><a>Transactions</a></Link>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    )
+	const router = useRouter();
+	const {pathname} = router;
+
+	const { userInfo } = useContext(GlobalContext)
+
+	const links = [
+		{ href: '/user/profile', title: 'Basic Information' },
+		{ href: '/user/change-password', title: 'Change Password' },
+		{ href: '/user/address', title: 'Addresses' },
+		{ href: '/user/orders', title: 'Orders' },
+		{ href: '/user/unconfirmed', title: 'Unconfirmed Orders' },
+		{ href: '/user/reviews', title: 'Reviews' },
+		{ href: '/user/refund', title: 'Refund Settlements' },
+		{ href: '/user/appointment', title: 'Appointment' },
+		{ href: '/user/transactions', title: 'Transactions' },
+	]
+	return (
+		<div>
+			<div className='text-center'>
+			<img src="/assets/images/user-dashboard/user.png" height="100px" width="100px" alt='User Profile' />
+			<h4>{userInfo?.name || userInfo?.email || userInfo?.phone || 'Hello'}</h4>
+			</div>
+			<hr />
+			<div className={styles.menu__list}>
+				<ul className={`list-unstyled list-group`}>
+					{
+						links?.map((link, index) => (
+							<li key={index} className={`mb-2`}>
+								<Link href={link?.href}><a className={`text-uppercase text-decoration-none ${pathname==link?.href ? 'text-primary' : ''}`}>{link?.title}</a></Link>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	)
 }

@@ -41,14 +41,14 @@ function MyFunctionComponent({ children }) {
 	const [loader, setLoader] = useState(true)
 	const [goingUp, setGoingUp] = useState(false)
 
-	// const { userName, isLoggedIn } = useContext(GlobalContext)
-	const {setUserName, setIsLoggedIn} = useContext(GlobalUpdateContext)
+	const {setUserInfo, setIsLoggedIn} = useContext(GlobalUpdateContext)
 
 	useEffect(() => {
 		async function fetchProfile() {
       let user = await request('/user/profile');
+			console.log('user found in appjs ',user);
 			if(user){
-				setUserName(user?.name)
+				setUserInfo(user)
 				setIsLoggedIn(true)
 			}
     }

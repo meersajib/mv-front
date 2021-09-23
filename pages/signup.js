@@ -8,9 +8,11 @@ import { useRouter } from 'next/router';
 import styles from '../styles/Signup.module.css'
 import { useState } from 'react';
 import Link from 'next/link'
+import ModernSassLayout from '../components/Layouts/modern-sass';
 const Signup = () => {
 	const router = useRouter();
 	const [showOtp, setShowOtp] = useState(false)
+
 	const schema = Joi.object({
 		name: Joi.string().min(3).max(50).trim().required()
 			.messages({
@@ -66,13 +68,10 @@ const Signup = () => {
 	}
 
 	return (
-		<>
-			<Head>
-				<title>Sign Up</title>
-			</Head>
+		<ModernSassLayout title="signup">
 			<div className='container'>
 				<div className={`form-body row`}>
-					<div className='col-10 col-md-8 col-offset-md-4 col-lg-5 col-offset-2 col-offset-lg-7 mx-auto card p-5 box'>
+					<div className='col-10 col-md-8 col-offset-md-4 col-lg-4 col-offset-2 col-offset-lg-7 mx-auto card p-5 box'>
 						<div className="text-center">
 							<div className="main-title">
 								<h2>
@@ -132,7 +131,7 @@ const Signup = () => {
 
 				</div>
 			</div>
-		</>
+		</ModernSassLayout>
 	);
 };
 

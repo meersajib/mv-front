@@ -2,30 +2,30 @@ import React, { Fragment, useState } from 'react';
 import { Container, Row, Col } from 'reactstrap'
 import Link from 'next/link';
 import { useContext } from 'react';
-import { GlobalContext,GlobalUpdateContext } from '../contexts/globalContext';
+import { GlobalContext, GlobalUpdateContext } from '../contexts/globalContext';
 import request from '../utils/request';
 import { toast } from 'react-toastify';
 
 const Header = () => {
 
 	const [navbar, setNavbar] = useState(false);
-	const { userName, isLoggedIn } = useContext(GlobalContext)
-	const {setUserName, setIsLoggedIn} = useContext(GlobalUpdateContext)
+	const { userInfo, isLoggedIn } = useContext(GlobalContext)
+	const { setUserInfo, setIsLoggedIn } = useContext(GlobalUpdateContext)
 	const toggleNav = () => {
 		setNavbar(!navbar)
 	}
 
-	const logout= async (e)=>{
+	const logout = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await request('/user/logout',{method:'POST'});
-			if(response){
+			const response = await request('/user/logout', { method: 'POST' });
+			if (response) {
 				setIsLoggedIn(false)
-				setUserName('')
-				toast.success('Logged out!', {autoClose:1000,pauseOnHover: false,});
+				setUserInfo({})
+				toast.success('Logged out!', { autoClose: 1000, pauseOnHover: false, });
 			}
 		} catch (error) {
-			toast.error('Something went wrong',{autoClose:1000})
+			toast.error('Something went wrong', { autoClose: 1000 })
 		}
 	}
 	return (
@@ -78,17 +78,21 @@ const Header = () => {
 													</>
 													:
 													<li className="nav-item">
-														<a className="nav-link" onClick={(e)=>logout(e)}>logout</a>
-												</li>
+														<a className="nav-link" onClick={(e) => logout(e)}>logout</a>
+													</li>
 												}
 											</ul>
 										</div>
 									</nav>
 								</div>
 
-								<div className="purchase-block">
-									<span className="purchase-btn">{userName}</span>
-								</div>
+								{isLoggedIn &&
+									<div className="purchase-block">
+										<Link href="/user/profile">
+											<a className="purchase-btn">{userInfo?.name || userInfo?.phone || userInfo?.email || 'Guest'}</a>
+										</Link>
+									</div>
+								}
 							</div>
 						</Col>
 					</Row>

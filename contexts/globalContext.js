@@ -8,15 +8,15 @@ export const GlobalUpdateContext = createContext()
 
 const initialState = {
 	isLoggedIn: false,
-  userName:'Guest'
+  userInfo:{}
 }
 
 
 const GlobalContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(GlobalReducer, initialState)
 
-	const setUserName = payload => {
-		dispatch({ type: 'SET_USER_NAME', payload })
+	const setUserInfo = payload => {
+		dispatch({ type: 'SET_USER_INFO', payload })
 	}
 
 	const setIsLoggedIn = payload => {
@@ -25,7 +25,7 @@ const GlobalContextProvider = ({ children }) => {
 
 	const actions = {
 		setIsLoggedIn,
-		setUserName
+		setUserInfo
 	}
 
 	return (
