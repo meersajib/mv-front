@@ -7,14 +7,12 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Link from 'next/link'
 import styles from '../../../styles/Signup.module.css'
-import {GlobalContext, GlobalUpdateContext} from '../../../contexts/globalContext'
+import { GlobalContext, GlobalUpdateContext } from '../../../contexts/globalContext'
 
 export default function BasicInfo() {
-	const {userInfo} = useContext(GlobalContext)
-	const {setUserInfo} = useContext(GlobalUpdateContext)
+	const { userInfo } = useContext(GlobalContext)
+	const { setUserInfo } = useContext(GlobalUpdateContext)
 
-	// useEffect(() => {
-	// }, [userInfo])
 	const [editMode, setEditMode] = useState(false)
 
 	const schema = Joi.object({
@@ -27,16 +25,22 @@ export default function BasicInfo() {
 		phone: Joi.string().required().messages({
 			'string.empty': 'phone cannot be empty'
 		}),
-		email: Joi.string().required().messages({
-			'string.empty': 'email cannot be empty'
-		}),
+		email: Joi.optional(),
 		address: Joi.string().required().messages({ 'string.empty': 'address cannot be empty' }),
 	});
 
 
-	const { register, handleSubmit, watch, formState: { errors },reset } = useForm({
-		resolver: joiResolver(schema), defaultValues:{...userInfo}
-	});
+	const { register, handleSubmit, formState: { errors }, reset } = useForm({
+		resolver: joiResolver(schema)});
+
+	useEffect(() => {
+		reset({
+			name: userInfo?.name,
+			phone: userInfo?.phone,
+			email: userInfo?.email,
+			address: userInfo?.address
+		})
+	}, [reset, userInfo])
 
 	const onSubmit = async data => {
 		const toast_id = toast.loading("Please wait...", { autoClose: 2000 })
@@ -50,7 +54,7 @@ export default function BasicInfo() {
 		}
 	}
 
-	const onCancel = ()=>{
+	const onCancel = () => {
 		setEditMode(false);
 		reset({
 			name: userInfo?.name,
@@ -73,7 +77,7 @@ export default function BasicInfo() {
 						</div>
 
 						<div className="mb-3">
-							<label htmlFor="phone" className="form-label">Phone<span className="text-danger">*</span></label>
+							<label htmlFor="phone" className="form-label">Phone</label>
 							<div className="input-group">
 								<input disabled={userInfo?.isPhoneVerified || !editMode} defaultValue={userInfo?.phone} className="form-control" id="phone" placeholder="Phone" {...register("phone")} />
 								{userInfo?.isPhoneVerified &&
@@ -86,7 +90,7 @@ export default function BasicInfo() {
 						</div>
 
 						<div className="mb-3">
-							<label htmlFor="email" className="form-label">Email<span className="text-danger">*</span></label>
+							<label htmlFor="email" className="form-label">Email</label>
 							<div className="input-group">
 								<input disabled={userInfo?.isEmailVerified || !editMode} defaultValue={userInfo?.email} className="form-control" id="email" placeholder="Email" {...register("email")} />
 								{userInfo?.isEmailVerified &&
@@ -103,13 +107,13 @@ export default function BasicInfo() {
 							<textarea disabled={!editMode} className="form-control" defaultValue={userInfo?.address} placeholder="Enter address" id="address" rows="3" {...register("address")}></textarea>
 							<p className="text-danger pt-2">{errors.address?.message}</p>
 						</div>
-						{!editMode && <button type="button" className="btn btn-block text-white" onClick={()=>setEditMode(true)}>Edit Profile</button>}
+						{!editMode && <button type="button" className="btn btn-block text-white" onClick={() => setEditMode(true)}>Edit Profile</button>}
 
 						{
 							editMode &&
 							<>
 								<button type="submit" className="btn btn-block text-white me-2">Update Profile</button>
-								<button type="button" className="btn btn-block text-white" onClick={()=>onCancel()}>Cancel</button>
+								<button type="button" className="btn btn-block text-white" onClick={() => onCancel()}>Cancel</button>
 							</>
 						}
 					</form>

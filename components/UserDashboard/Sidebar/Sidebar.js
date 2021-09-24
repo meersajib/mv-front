@@ -28,7 +28,7 @@ export default function Sidebar() {
 					{
 						links?.map((link, index) => (
 							<li key={index} className={`mb-2`}>
-								<Link href={link?.href}><a className={`text-uppercase text-decoration-none ${pathname==link?.href ? 'text-primary' : ''}`}>{link?.title}</a></Link>
+								<Link href={link?.href}><a className={`text-uppercase text-decoration-none ${pathname==link?.href ? 'font-primary' : ''}`}>{link?.title}</a></Link>
 							</li>
 						))
 					}
