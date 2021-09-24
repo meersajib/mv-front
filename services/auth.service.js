@@ -12,6 +12,14 @@ export const signin = async (data) => {
 	return await request('/user/login', { data, method: 'POST' });
 }
 
+export const resetOtpVerify = async (data) => {
+	return await request('/user/resetVerify', { data, method: 'POST' });
+}
+
+export const resetOtpSend = async (emailOrPhone) => {
+	return await request('/user/resetRequest', {  data: { emailOrPhone }, method: 'POST' });
+}
+
 export const getProfile = async (context = null) => {
 	return await request('/user/profile', { context });
 }

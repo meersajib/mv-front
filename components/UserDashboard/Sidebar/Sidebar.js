@@ -10,15 +10,11 @@ export default function Sidebar() {
 	const { userInfo } = useContext(GlobalContext)
 
 	const links = [
-		{ href: '/user/profile', title: 'Basic Information' },
+		{ href: '/user/profile', title: 'My Profile' },
 		{ href: '/user/change-password', title: 'Change Password' },
-		{ href: '/user/address', title: 'Addresses' },
-		{ href: '/user/orders', title: 'Orders' },
-		{ href: '/user/unconfirmed', title: 'Unconfirmed Orders' },
-		{ href: '/user/reviews', title: 'Reviews' },
-		{ href: '/user/refund', title: 'Refund Settlements' },
-		{ href: '/user/appointment', title: 'Appointment' },
-		{ href: '/user/transactions', title: 'Transactions' },
+		{ href: '#', title: 'My Affiliated Product' },
+		{ href: '#', title: 'My Orders' },
+		{ href: '#', title: 'My Points' }
 	]
 	return (
 		<div>

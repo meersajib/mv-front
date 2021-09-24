@@ -75,7 +75,8 @@ const Signup = () => {
 						<div className="text-center">
 							<div className="main-title">
 								<h2>
-									<span className="theme-color">S</span>ign <span className="theme-color">U</span>p</h2>
+									<span className="theme-color">S</span>ign <span className="theme-color">U</span>p
+									</h2>
 							</div>
 							<hr />
 						</div>

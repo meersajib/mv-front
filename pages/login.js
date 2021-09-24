@@ -76,6 +76,8 @@ const Login = () => {
 						</form>
 
 						<p className="text-center pt-4">Don't have an account? &nbsp;<Link href="/signup"><a style={{ color: '#fb3b64' }}>Sign up</a></Link></p>
+						
+						<p className="text-center pt-4">Forget your password? &nbsp;<Link href="/reset-password"><a style={{ color: '#fb3b64' }}>Reset Now</a></Link></p>
 					</div>
 				</div>
 			</div>
