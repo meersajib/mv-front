@@ -309,7 +309,7 @@ const CampaignIndex = () => {
 	return (
 		<ModernSassLayout title="campaigns-title">
 			<section className='container'>
-				<div className="row row-cols-1 row-cols-md-3 g-4">
+				<div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
 					{
 						demoItems.map((item,index)=>(
 							<div className="col">
