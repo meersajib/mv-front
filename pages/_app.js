@@ -117,7 +117,7 @@ export default function MyApp({ Component, pageProps, graphql }) {
 			<GlobalContextProvider>
 				<MyFunctionComponent>
 					<Component {...pageProps} />
-					<Customizer />
+					{/* <Customizer /> */}
 				</MyFunctionComponent>
 				<ToastContainer />
 			</GlobalContextProvider>

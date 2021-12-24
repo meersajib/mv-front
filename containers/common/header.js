@@ -14,7 +14,7 @@ const Header = props => {
     }
 
     return (
-        <header style={{ backgroundColor: '#071828' }} className={`${props.className || 'app2'} loding-header nav-abs custom-scroll  `}>
+        <header style={{ backgroundColor: '#071828' }} className={`${props.className || 'app2'} sticky-top loding-header custom-scroll  `}>
             <Container>
                 <Row>
                     <Col>
